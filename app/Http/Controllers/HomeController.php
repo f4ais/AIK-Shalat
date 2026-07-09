@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $kategori = Kategori::all();
 
-        $gerakan = Gerakan::with('kategori')->orderBy('urutan')->limit(6)->get();
+        $gerakan = Gerakan::with('kategori')->where('kategori_id',1)->orderBy('urutan')->limit(10)->get();
 
         return view('home', compact('kategori','gerakan'));
     }

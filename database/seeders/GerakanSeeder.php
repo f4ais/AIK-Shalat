@@ -121,6 +121,11 @@ class GerakanSeeder extends Seeder
             $item['slug'] = $item['slug'] . '-anak';
             $item['deskripsi'] = 'Panduan gerakan sholat untuk anak-anak. ' . $item['deskripsi'];
 
+            $item['gambar'] = str_replace(
+                'gerakan/',
+                'gerakan_anak/',
+                $item['gambar']
+            );
             return $item;
 
         })->toArray();

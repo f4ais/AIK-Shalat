@@ -41,45 +41,13 @@ class GerakanController extends Controller
 
     public function show($slug)
     {
+        $gerakan = Gerakan::with('bacaan')->where('slug',$slug)->firstOrFail();
 
-        $gerakan = Gerakan::with('bacaan')
-                    ->where(
-                        'slug',
-                        $slug
-                    )
-                    ->firstOrFail();
+        $previous = Gerakan::where('urutan','kategori_id',$gerakan->kategori_id)->Where('urutan', '<', $gerakan->urutan)->orderByDesc('urutan')->first();
 
+        $next = Gerakan::where('urutan','>',$gerakan->urutan)->orderBy('urutan')->first();
 
-
-        $previous = Gerakan::where(
-            'urutan',
-            '<',
-            $gerakan->urutan
-        )
-        ->orderByDesc('urutan')
-        ->first();
-
-
-
-        $next = Gerakan::where(
-            'urutan',
-            '>',
-            $gerakan->urutan
-        )
-        ->orderBy('urutan')
-        ->first();
-
-
-
-        return view(
-            'gerakan.detail',
-            compact(
-                'gerakan',
-                'previous',
-                'next'
-            )
-        );
-
+        return view('gerakan.detail',compact('gerakan','previous','next'));
     }
 
 }
