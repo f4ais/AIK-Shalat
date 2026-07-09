@@ -38,7 +38,7 @@ class BacaanSeeder extends Seeder
                 'audio' => 'bacaan/ruku.mp3',
             ],
 
-            // 4. I'tidal
+            // 4. Itidal
             [
                 'gerakan_id' => 4,
                 'arab' => 'سَمِعَ اللّٰهُ لِمَنْ حَمِدَهُ رَبَّنَا وَلَكَ الْحَمْدُ',
@@ -103,8 +103,30 @@ class BacaanSeeder extends Seeder
 
         ];
 
-        foreach ($bacaan as $item) {
+
+        // Membuat bacaan untuk kategori Anak-anak
+        $bacaanAnak = collect($bacaan)
+            ->map(function ($item) {
+
+                // ID gerakan anak = ID dewasa + 10
+                $item['gerakan_id'] = $item['gerakan_id'] + 10;
+
+                return $item;
+
+            })
+            ->toArray();
+
+
+
+        // Gabungkan bacaan dewasa dan anak
+        $semuaBacaan = array_merge($bacaan, $bacaanAnak);
+
+
+
+        foreach ($semuaBacaan as $item) {
+
             Bacaan::create($item);
+
         }
     }
 }

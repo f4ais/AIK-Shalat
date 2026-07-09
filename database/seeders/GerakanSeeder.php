@@ -12,7 +12,7 @@ class GerakanSeeder extends Seeder
         $gerakan = [
 
             [
-                'kategori_id' => 1,
+                'kategori_id' => 1, 
                 'nama' => 'Takbiratul Ihram',
                 'slug' => 'takbiratul-ihram',
                 'urutan' => 1,
@@ -22,7 +22,7 @@ class GerakanSeeder extends Seeder
             ],
 
             [
-                'kategori_id' => 1,
+                'kategori_id' => 1, 
                 'nama' => 'Berdiri',
                 'slug' => 'berdiri',
                 'urutan' => 2,
@@ -113,11 +113,32 @@ class GerakanSeeder extends Seeder
 
         ];
 
-        foreach ($gerakan as $item) {
+
+        // Membuat data gerakan untuk kategori Anak-anak
+        $gerakanAnak = collect($gerakan)->map(function ($item) {
+
+            $item['kategori_id'] = 2;
+            $item['slug'] = $item['slug'] . '-anak';
+            $item['deskripsi'] = 'Panduan gerakan sholat untuk anak-anak. ' . $item['deskripsi'];
+
+            return $item;
+
+        })->toArray();
+
+
+
+        // Gabungkan gerakan dewasa dan anak
+        $semuaGerakan = array_merge($gerakan, $gerakanAnak);
+
+
+
+        foreach ($semuaGerakan as $item) {
+
             $item['created_at'] = now();
             $item['updated_at'] = now();
 
             Gerakan::create($item);
+
         }
     }
 }
